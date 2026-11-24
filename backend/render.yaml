@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: ai-interview-prep-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    plan: free
+    envVars:
+      - key: GROQ_API_KEY
+        sync: false
+      - key: GROQ_MODEL
+        value: llama-3.3-70b-versatile
+      - key: APP_SECRET
+        generateValue: true
+      - key: FRONTEND_ORIGINS
+        sync: false
+      - key: DB_PATH
+        value: /var/data/interview_prep.db
+    disk:
+      name: interview-data
+      mountPath: /var/data
+      sizeGB: 1
